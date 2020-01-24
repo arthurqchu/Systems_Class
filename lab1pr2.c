@@ -1,17 +1,20 @@
 //Arthur Chu
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 bool isHex(char* string) {
-	char* ch; 
-	while(*ch != '\0') {
-		ch = string;
-		if(*ch >= '0' && *ch <= '9') {
-			ch++;
+	char* ch = string; 
+	for(int i = 0; i < strlen(string); i++) {
+		if(*ch < 48) {
+			return false;
 		}
-		if(*ch >= 'A' && *ch <= 'F') {
-			ch++;
+		if(*ch > 58 && *ch < 65) {
+			return false;
 		}
-		else {
+		if(*ch > 70 && *ch < 97) {
+			return false;
+		}
+		if(*ch > 102) {
 			return false;
 		}
 	}
@@ -25,8 +28,9 @@ int main(void) {
 		char input[20];
 		scanf("%s", input);
 		if(isHex(input) == true) {
-			printf("Thank you!");
+			printf("Thank you!\n");
 			done = true;
 		}
 	}
+	return 0;
 }
