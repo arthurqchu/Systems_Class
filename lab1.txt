@@ -1,0 +1,8 @@
+1. arthur@DESKTOP-SURDD2S:~/Systems_Class$
+2. /home/arthur/Systems_Class 
+3. Haskell  Java-Projects  Systems_Class
+   I put my work into different folders in my home directory.
+4. /home/arthur/cmps2300
+5. mv lab1.txt ~/cmps2300
+6. & is placed before the name of a pointer in order to access the memory address of the pointer.
+   * is used before the name of a pointer in order to access the data that is being referred to by the pointer. 
