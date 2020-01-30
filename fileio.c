@@ -1,5 +1,6 @@
 //Arthur Chu
 #include <stdio.h>
+#include <stdlib.h>
 int main(int argc, char *argv[]) {
 	
 //	int totalIdleTime[7];
@@ -9,6 +10,26 @@ int main(int argc, char *argv[]) {
 //		scanf("%d", &totalIdleTime[i]);
 //		minutesIdleTime += *(totalIdleTime+i);
 //	}
+	int numDays;
+	int i;
+	int minutesIdleTime = 0;
+	FILE *inputFile;
+	if(argc == 1) {
+		printf("No input file specified. Run this program with the input file as a command line argument");
+	}else if(argc > 1) {
+		inputFile = fopen(argv[1], "r");
+		fscanf(inputFile, "%d", &numDays);
+	}
+	
+	if(inputFile == NULL) {
+		printf("There was an issue opening the file");	
+	}
+	int totalIdleTime[numDays];
+	for(i = 0; i < numDays; i++) {
+		int tempDailyMinutes;
+		fscanf(inputFile, "%d", &totalIdleTime[i]);
+		minutesIdleTime += tempDailyMinutes;
+	}
 
 	printf("Total Idle Time: %d minutes\n", minutesIdleTime);	
 	float rate = minutesIdleTime / 10080;
@@ -20,7 +41,7 @@ int main(int argc, char *argv[]) {
 	int minIdle = *totalIdleTime;
 	int dayMax = -1;
 	int dayMin = 0;
-	for(int i = 0; i < 7; i++) {
+	for(i = 0; i < 7; i++) {
 		if(*(totalIdleTime + i) > maxIdle) {
 			maxIdle = *(totalIdleTime + i);
 			dayMax = i;
