@@ -58,12 +58,14 @@ void forkPrint() {
 
 void forkExec() {
     int p = fork();
+    int status;
     if(p < 0) {
         fprintf(stderr, "You forked up\n");
     } else if( p == 0 ) {
         execl("/bin/ls", "ls", NULL);
         exit(0);
     } else {
+        wait(&status);
     }
 }
 
