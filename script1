@@ -1,0 +1,34 @@
+#!/bin/bash
+echo "One (1) line."
+echo "Another line." >> handin.txt
+comArg1=${1} #First number
+comArg2=${2} #Second number
+comArg3=${3} #File name
+comArg4=${4} #Folder name
+if [[ ${comArg1} -lt ${comArg2} ]]; then
+    echo "The first command line argument number is less than the second one."
+else
+    echo "The first command line argument is greater than the the second one."
+fi
+echo "${comArg2} is the second number I was given."
+
+if [[ ! -f ${comArg3} ]]; then
+    echo "This third command line argument you've mentioned doesn't sound like a file name."
+fi
+
+if [[ ! -d ${comArg4} ]]; then
+    echo "The fourth command line argument doesn't sound like a folder name."
+fi
+
+if [[ -d ${comArg4} && -e ${comArg4} ]]; then
+    echo "I definitely have that folder around here."
+    
+    if [[ -f ${comArg3} && -e ${comArg3} ]]; then
+        echo "I found the file you mentioned."
+    fi
+    echo "Here's what I found in that folder:"
+    for file in ${comArg4}*; do
+        echo ${file}
+    done
+fi
+exit

@@ -1,0 +1,14 @@
+./script1 1 2 script1 ./ >> handin.txt
+One (1) line.
+Another line.
+The first command line argument number is less than the second one.
+2 is the second number I was given.
+I definitely have that folder around here.
+I found the file you mentioned.
+Here's what I found in that folder:
+./Haskell
+./Java-Projects
+./Systems_Class
+./handin.txt
+./script1
+./tmpResults.txt
