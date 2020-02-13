@@ -3,7 +3,7 @@ path=${1}
 if [[ -d ${path} ]]; then
     for file in ${path}*; do
         if [[ ${file: -5} != ".java" ]]; then
-            rm file
+            rm ${file}
         fi
     done
 fi
