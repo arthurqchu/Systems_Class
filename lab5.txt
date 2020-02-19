@@ -1,0 +1,19 @@
+(1) A computer with 2^22 bytes of physical memory has 41,494,304 frames.
+
+(2) This computer provides a virtual address space of 2^32 bytes which is 4,294,967,296 bytes, or 4.2950 GB.
+
+(3) From the virtual address 0x0012D687, the system establishes the corresponding physical location by :
+        i) Converting the hexadecimal number to decimal: 1234567
+        ii)
+
+(4)
+
+(5)
+
+(6) As the address space grows, the page-table size increases.
+
+(7) As the page size grows, the page-table size decreases.
+
+(8) We shouldn't default to using really big pages because while each page could store more information, the computer wouldn't be able to multi-task and run multiple processes at once as efficiently. It would have to swap out these large page files from RAM to harddrive which is slow.
+
+(9) 
