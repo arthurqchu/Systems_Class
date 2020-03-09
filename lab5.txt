@@ -3,17 +3,31 @@
 (2) This computer provides a virtual address space of 2^32 bytes which is 4,294,967,296 bytes, or 4.2950 GB.
 
 (3) From the virtual address 0x0012D687, the system establishes the corresponding physical location by :
-        i) Converting the hexadecimal number to decimal: 1234567
-        ii)
+        i) Converting the hexadecimal number to binary: 0000 0000 0001 0010 1101 0110 1000 0111
+        ii) The first 12 bits are the Virtual Page Number which map to a physical frame number in the page table. The remaining 20 bits are the OFFSET which are appended to the physical address found in the page table.
+        iii) The resulting number in hexadecimal is the physical addres.
+(4) Convert the following virtual addresses, in hexadecimal, to the equivalent physical address, in hexadecimal:
+    0xE12C
+        0x312C
+    0x3A9D
+        0xAA9D
+    0xA9D9
+        0x59D9
+    0x7001
+        0xF001
+    0xACA1
+        0x5CA1
 
-(4)
+(5) The logical address 0x412C would result in a page fault.
 
-(5)
+(6) As the address space grows, the page-table size increases since there's more space for pages.
 
-(6) As the address space grows, the page-table size increases.
-
-(7) As the page size grows, the page-table size decreases.
+(7) As the page size grows, the page-table size decreases since the system can't fit as many of the larger pages into the address as it could with smaller pages.
 
 (8) We shouldn't default to using really big pages because while each page could store more information, the computer wouldn't be able to multi-task and run multiple processes at once as efficiently. It would have to swap out these large page files from RAM to harddrive which is slow.
 
-(9) 
+(9) As the percentage of pages that are allocated in each address space increases, more pages and mememory can be used and there's less available memory in the system.
+
+(10) The second parameter combination is unrealistic because the physical memory size, 1MB, isn't a multiple of the page size 8kB.
+
+(11) This program won't work if the address-space size is bigger than physical memory size. It won't work if the page size is larger than the physical memory size or the address-space size. It also won't work if the address-space size or the physical memory size isn't a multiple of the page size.
