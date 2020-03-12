@@ -16,12 +16,12 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
+#include <unistd.h>
 
 // Global array to keep track of which forks are available -- 1 means
 // available, 0 means not. Philosopher i will eat with fork i, and i+1
 // (addition done modulo 5, so philosopher 4 will use 4 and 0.
 int forks[5] = {1,1,1,1,1};
-
 
 /*
  * Function to pick up the forks -- it takes the philosopher number that is
@@ -31,38 +31,66 @@ int forks[5] = {1,1,1,1,1};
  * starve themselves to death and return 1, which means their thread will
  * die.
 */
+
+//Init the locks
+pthread_mutex_t rightLock;
+pthread_mutex_t leftLock;
+
 int pickup_forks(int philosopher_number, time_t *last_meal)
 {
+    printf("Philosopher %d has started her meal!\n",philosopher_number);
+    if((philosopher_number % 2) == 0) {
+        if(forks[philosopher_number] < 1) {
+            printf("Philosopher %d wanted to eat but there was no fork to her left. She is furious and starved herself in protest\n",philosopher_number);
+            return 1;
+        }
+        else {
+            pthread_mutex_lock(&leftLock);
+            forks[philosopher_number]--;
 
-  printf("Philosopher %d has started her meal!\n",philosopher_number);
+            sleep(2);
+                
+            if(forks[(philosopher_number+1)%5] < 1) {
+                printf("Philosopher %d wanted to eat but there was no fork to her right. She is furious and starved herself in protest\n",philosopher_number);
+                return 1;
+            }
+            else {
+                pthread_mutex_lock(&rightLock);
+                forks[(philosopher_number+1)%5]--;
+            }
+        }
+    }
+    else{ 
+        if(forks[(philosopher_number+1)%5] < 1) {
+            printf("Philosopher %d wanted to eat but there was no fork to her right. She is furious and starved herself in protest\n",philosopher_number);
+            return 1;
+        }
 
-  if(forks[(philosopher_number+1)%5] < 1)
-  {
-    printf("Philosopher %d wanted to eat but there was no fork to her right. She is furious and starved herself in protest\n",philosopher_number);
-    return 1;
-  }
+        else{
+            pthread_mutex_lock(&rightLock);
+            forks[(philosopher_number+1)%5]--;
 
-  else
-    forks[(philosopher_number+1)%5]--;
+            sleep(2);
 
-  sleep(2);
-
-  if(forks[philosopher_number] < 1)
-  {
-    printf("Philosopher %d wanted to eat but there was no fork to her left. She is furious and starved herself in protest\n",philosopher_number);
-    return 1;
-  }
-  else
-    forks[philosopher_number]--;
-
-  
-  // If we just ate successfully, reset that philosopher's last_meal time
-  time(last_meal);
-  return 0;
+            if(forks[philosopher_number] < 1) {
+                printf("Philosopher %d wanted to eat but there was no fork to her left. She is furious and starved herself in protest\n",philosopher_number);
+                return 1;
+            }
+            else {
+                pthread_mutex_lock(&leftLock);
+                forks[philosopher_number]--;
+            }
+        }
+    }
+    // If we just ate successfully, reset that philosopher's last_meal time
+    time(last_meal);
+    return 0;
 }
 // Function to return the forks
 void return_forks(int philosopher_number)
 {
+    pthread_mutex_unlock(&rightLock);
+    pthread_mutex_unlock(&leftLock);
   printf("Philosopher %d has politely returned her forks. \n",philosopher_number);
   forks[(philosopher_number + 1)%5]++;
   forks[philosopher_number]++;
@@ -95,7 +123,7 @@ void *Philosopher(void *num)
     if(current_time - last_meal > 20 )
     {
       printf("Philosopher %d didn't eat for 20 seconds, so she died\n",philosopher_number);
-      return;
+      return NULL;
     }
 
     // This represents thinking
