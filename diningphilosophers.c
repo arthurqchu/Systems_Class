@@ -39,12 +39,11 @@ pthread_mutex_t leftLock;
 int pickup_forks(int philosopher_number, time_t *last_meal)
 {
     printf("Philosopher %d has started her meal!\n",philosopher_number);
-    if((philosopher_number % 2) == 0) {
+    if((philosopher_number % 2) == 0) { //If philosopher is even number, grab left fork then right fork
         if(forks[philosopher_number] < 1) {
             printf("Philosopher %d wanted to eat but there was no fork to her left. She is furious and starved herself in protest\n",philosopher_number);
             return 1;
-        }
-        else {
+        }else {
             pthread_mutex_lock(&leftLock);
             forks[philosopher_number]--;
 
@@ -53,20 +52,16 @@ int pickup_forks(int philosopher_number, time_t *last_meal)
             if(forks[(philosopher_number+1)%5] < 1) {
                 printf("Philosopher %d wanted to eat but there was no fork to her right. She is furious and starved herself in protest\n",philosopher_number);
                 return 1;
-            }
-            else {
+            }else {
                 pthread_mutex_lock(&rightLock);
                 forks[(philosopher_number+1)%5]--;
             }
         }
-    }
-    else{ 
+    }else { //If philosopher is odd number, grab right fork then left fork
         if(forks[(philosopher_number+1)%5] < 1) {
             printf("Philosopher %d wanted to eat but there was no fork to her right. She is furious and starved herself in protest\n",philosopher_number);
             return 1;
-        }
-
-        else{
+        }else {
             pthread_mutex_lock(&rightLock);
             forks[(philosopher_number+1)%5]--;
 
@@ -75,8 +70,7 @@ int pickup_forks(int philosopher_number, time_t *last_meal)
             if(forks[philosopher_number] < 1) {
                 printf("Philosopher %d wanted to eat but there was no fork to her left. She is furious and starved herself in protest\n",philosopher_number);
                 return 1;
-            }
-            else {
+            }else {
                 pthread_mutex_lock(&leftLock);
                 forks[philosopher_number]--;
             }
@@ -84,6 +78,7 @@ int pickup_forks(int philosopher_number, time_t *last_meal)
     }
     // If we just ate successfully, reset that philosopher's last_meal time
     time(last_meal);
+    printf("here");
     return 0;
 }
 // Function to return the forks
